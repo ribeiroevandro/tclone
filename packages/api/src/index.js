@@ -13,9 +13,11 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
 mongoose.connect(
-  `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds153593.mlab.com:53593/${process.env.APP_NAME}`,
+  `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.APP_ID}.mlab.com:${process.env.DB_PORT}/${process.env.APP_NAME}`,
   {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
   }
 );
 
