@@ -1,0 +1,11 @@
+{
+  "name": "tclone",
+  "version": "1.0.0",
+  "repository": "git@github.com:ribeiroevandro/tclone.git",
+  "author": "Evandro Ribeiro <ribeiroevandro@live.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
