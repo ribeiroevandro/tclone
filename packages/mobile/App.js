@@ -1,19 +1,32 @@
-import React from 'react';
-import { StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StatusBar, AsyncStorage } from 'react-native';
 
-import { COLORS } from '~/constants';
 import createRootNavigator from '~/routes';
 
 export default function App() {
-  const Routes = createRootNavigator();
+  const [userExists, setUserExists] = useState(false);
+  const [userChecked, setUserChecked] = useState(false);
+
+  async function checkUser() {
+    const isUser = await AsyncStorage.getItem('@TClone:userName');
+
+    return isUser !== null;
+  }
+
+  useEffect(() => {
+    checkUser().then(response => {
+      setUserExists(response);
+      setUserChecked(true);
+    });
+  }, []);
+
+  if (!userChecked) return null;
+
+  const Routes = createRootNavigator(userExists);
 
   return (
     <>
-      <StatusBar
-        backgroundColor={COLORS.BACKGROUND_COLOR}
-        translucent
-        barStyle="light-content"
-      />
+      <StatusBar backgroundColor="#fff" translucent barStyle="light-content" />
       <Routes />
     </>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -8,7 +9,12 @@ import { Container, Tweets, Button, ButtonIcon } from './styles';
 
 const Mock = [];
 
-export default function Home() {
+export default function Home({ navigation }) {
+  async function handleLogout() {
+    await AsyncStorage.clear();
+    return navigation.navigate('SignIn');
+  }
+
   return (
     <Container>
       <Tweets
@@ -16,6 +22,15 @@ export default function Home() {
         keyExtractor={tweet => String(tweet)}
         renderItem={({ item }) => <Tweet data={item} />}
       />
+      <Button onPress={handleLogout}>
+        <ButtonIcon>
+          <MaterialIcons
+            name="add-circle-outline"
+            size={24}
+            color={COLORS.TWITTER}
+          />
+        </ButtonIcon>
+      </Button>
     </Container>
   );
 }
@@ -33,4 +48,6 @@ Home.navigationOptions = props => ({
       </ButtonIcon>
     </Button>
   ),
+  gesturesEnabled: false,
+  headerLeft: null,
 });
