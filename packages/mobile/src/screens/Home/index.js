@@ -1,35 +1,36 @@
 import React from 'react';
-import { Linking } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 
-import {
-  Container,
-  Title,
-  Description,
-  LinkContainer,
-  Link,
-  LinkText,
-} from './styles';
+import { MaterialIcons } from '@expo/vector-icons';
+
+import { COLORS } from '~/constants';
+
+import { Container, Tweets, Button, ButtonIcon } from './styles';
+
+const Mock = [];
 
 export default function Home() {
-  function hadleGithub() {
-    Linking.openURL('https://github.com/ribeiroevandro/extboilerplate');
-  }
   return (
     <Container>
-      <Title>Expo</Title>
-      <Description>Template Base</Description>
-      <LinkContainer>
-        <LinkText>Veja mais em:</LinkText>
-        <Link onPress={hadleGithub}>
-          <AntDesign name="github" size={25} color="#fff" />
-          <LinkText>/ribeiroevandro/extboilerplate</LinkText>
-        </Link>
-      </LinkContainer>
+      <Tweets
+        data={Mock}
+        keyExtractor={tweet => String(tweet)}
+        renderItem={({ item }) => <Tweet data={item} />}
+      />
     </Container>
   );
 }
 
-Home.navigationOptions = {
-  header: null,
-};
+Home.navigationOptions = props => ({
+  title: 'Timeline',
+  headerRight: (
+    <Button {...props}>
+      <ButtonIcon>
+        <MaterialIcons
+          name="add-circle-outline"
+          size={24}
+          color={COLORS.TWITTER}
+        />
+      </ButtonIcon>
+    </Button>
+  ),
+});
