@@ -1,4 +1,12 @@
 export const COLORS = {
-  BACKGROUND_COLOR: '#62dafc',
-  TEXT_COLOR: '#fff',
+  WHITE: '#fff',
+  LIGHT: '#eee',
+  DARK: '#ddd',
+  DARKER: '#333',
+
+  LIKE: '#999',
+  TWITTER: '#4BB0EE',
+
+  PRIMARY: '#1C2022',
+  BACKGROUND: '#fff',
 };
