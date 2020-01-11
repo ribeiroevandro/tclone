@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import { COLORS } from '~/constants';
 
 export const Container = styled.View`
-  flex: 1;
   padding: 20px;
 `;
 

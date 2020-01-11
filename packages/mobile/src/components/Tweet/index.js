@@ -12,16 +12,16 @@ import {
   ButtonText,
 } from './styles';
 
-export default function Tweet() {
+export default function Tweet({ tweets }) {
   return (
     <Container>
-      <Author>Evandro Ribeiro</Author>
-      <Content>Teste</Content>
+      <Author>{tweets.author}</Author>
+      <Content>{tweets.content}</Content>
       <Button onPress={() => {}}>
         <ButtonIcon>
           <Ionicons name="ios-heart-empty" size={20} color={COLORS.LIKE} />
         </ButtonIcon>
-        <ButtonText>5</ButtonText>
+        <ButtonText>{tweets.likes}</ButtonText>
       </Button>
     </Container>
   );

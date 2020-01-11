@@ -1,26 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { AsyncStorage } from 'react-native';
+import socket from 'socket.io-client';
+import { api } from '@tclone/services';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { COLORS } from '~/constants';
+import Tweet from '~/components/Tweet';
 
 import { Container, Tweets, Button, ButtonIcon } from './styles';
 
-const Mock = [];
-
 export default function Home({ navigation }) {
+  const [tweets, setTweets] = useState([]);
+  const io = useMemo(
+    () => socket('https://f770f4b1.ngrok.io', { forceNew: true }),
+    []
+  );
+
   async function handleLogout() {
     await AsyncStorage.clear();
     return navigation.navigate('SignIn');
   }
 
+  function subscribeToEvents() {
+    io.on('tweet', data => {
+      setTweets({ tweets: [data, ...tweets] });
+    });
+  }
+
+  async function getTweets() {
+    const response = await api.get('tweets');
+    setTweets(response.data);
+  }
+
+  useEffect(() => {
+    subscribeToEvents();
+    getTweets();
+  }, []);
+
   return (
     <Container>
+      {console.log('teste', tweets)}
       <Tweets
-        data={Mock}
-        keyExtractor={tweet => String(tweet)}
-        renderItem={({ item }) => <Tweet data={item} />}
+        data={tweets}
+        keyExtractor={tweet => String(tweet._id)}
+        renderItem={({ item }) => <Tweet tweets={item} />}
       />
       <Button onPress={handleLogout}>
         <ButtonIcon>

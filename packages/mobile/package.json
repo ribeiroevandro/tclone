@@ -20,6 +20,7 @@
     "vector-icons"
   ],
   "dependencies": {
+    "@tclone/services": "^0.0.1",
     "@expo/vector-icons": "^10.0.0",
     "expo": "^36.0.0",
     "prop-types": "^15.7.2",
