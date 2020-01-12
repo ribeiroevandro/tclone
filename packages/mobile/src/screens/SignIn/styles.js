@@ -4,7 +4,7 @@ import { COLORS } from '~/constants';
 
 export const Container = styled.View`
   flex: 1;
-  background: ${COLORS.BACKGROUND};
+  background: ${COLORS.TWITTER};
 `;
 
 export const Content = styled.View`
@@ -24,14 +24,14 @@ export const Button = styled.TouchableOpacity.attrs({
   height: 44px;
   align-self: stretch;
   margin-top: 10px;
-  background-color: ${COLORS.TWITTER};
+  background-color: ${COLORS.WHITE};
   border-radius: 5px;
   align-items: center;
   justify-content: center;
 `;
 
 export const ButtonText = styled.Text`
-  color: ${COLORS.WHITE};
+  color: ${COLORS.TWITTER};
   font-size: 16px;
   font-weight: bold;
 `;

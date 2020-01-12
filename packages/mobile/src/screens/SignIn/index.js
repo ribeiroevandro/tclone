@@ -41,21 +41,23 @@ export default function SignIn({ navigation }) {
       <Container>
         <Content>
           <IconContainer>
-            <FontAwesome name="twitter" size={64} color={COLORS.TWITTER} />
+            <FontAwesome name="twitter" size={64} color={COLORS.WHITE} />
           </IconContainer>
           <Input
             value={user}
             onChangeText={text => setUser(text)}
             label="Username"
             placeholder="Informe o Username"
-            keyboardType="email-address"
+            keyboardType="default"
             autoCapitalize="none"
             autoCorrect={false}
             underlineColorAndroid="transparent"
+            colors={COLORS.WHITE}
+            isMultiline={false}
           />
           <Button onPress={handleLogin}>
             {loading ? (
-              <ActivityIndicator size="small" color="#fff" />
+              <ActivityIndicator size="small" color={COLORS.TWITTER} />
             ) : (
               <ButtonText>Entrar</ButtonText>
             )}
