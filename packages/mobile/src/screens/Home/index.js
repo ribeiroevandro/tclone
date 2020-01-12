@@ -1,26 +1,22 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { AsyncStorage } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import socket from 'socket.io-client';
 import { api } from '@tclone/services';
 
-import { MaterialIcons } from '@expo/vector-icons';
-
-import { COLORS } from '~/constants';
 import Tweet from '~/components/Tweet';
+import Header from '~/components/Header';
 
-import { Container, Tweets, Button, ButtonIcon } from './styles';
+import {
+  Container,
+  Tweets,
+  LoadingContainer,
+  Loading,
+  NodataContainer,
+  NodataText,
+} from './styles';
 
-export default function Home({ navigation }) {
+export default function Home() {
   const [tweets, setTweets] = useState([]);
-  const io = useMemo(
-    () => socket('https://f770f4b1.ngrok.io', { forceNew: true }),
-    []
-  );
-
-  async function handleLogout() {
-    await AsyncStorage.clear();
-    return navigation.navigate('SignIn');
-  }
+  const [loading, setLoading] = useState(false);
 
   function subscribeToEvents() {
     io.on('tweet', data => {
@@ -34,44 +30,57 @@ export default function Home({ navigation }) {
   }
 
   useEffect(() => {
-    subscribeToEvents();
-    getTweets();
+    const io = socket('https://052d8adf.ngrok.io');
+
+    io.on('tweet', data => {
+      setTweets([data, ...tweets]);
+    });
+
+    io.on('like', data => {
+      setTweets(tweets.map(tweet => (tweet._id === data._id ? data : tweet)));
+    });
+
+    return () => {
+      io.removeAllListeners();
+    };
+  }, [tweets]);
+
+  useEffect(() => {
+    setLoading(true);
+    getTweets().then(() => setLoading(false));
   }, []);
+
+  const renderTweets = () => (
+    <Tweets
+      data={tweets}
+      keyExtractor={tweet => String(tweet._id)}
+      renderItem={({ item }) => <Tweet tweets={item} />}
+    />
+  );
+
+  const renderList = () =>
+    tweets.length ? (
+      renderTweets()
+    ) : (
+      <NodataContainer>
+        <NodataText>Nenhum tweet encontrado!</NodataText>
+      </NodataContainer>
+    );
 
   return (
     <Container>
-      {console.log('teste', tweets)}
-      <Tweets
-        data={tweets}
-        keyExtractor={tweet => String(tweet._id)}
-        renderItem={({ item }) => <Tweet tweets={item} />}
-      />
-      <Button onPress={handleLogout}>
-        <ButtonIcon>
-          <MaterialIcons
-            name="add-circle-outline"
-            size={24}
-            color={COLORS.TWITTER}
-          />
-        </ButtonIcon>
-      </Button>
+      {loading ? (
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      ) : (
+        renderList()
+      )}
     </Container>
   );
 }
 
 Home.navigationOptions = props => ({
-  title: 'Timeline',
-  headerRight: (
-    <Button {...props}>
-      <ButtonIcon>
-        <MaterialIcons
-          name="add-circle-outline"
-          size={24}
-          color={COLORS.TWITTER}
-        />
-      </ButtonIcon>
-    </Button>
-  ),
+  header: <Header {...props} title="Timeline" />,
   gesturesEnabled: false,
-  headerLeft: null,
 });
