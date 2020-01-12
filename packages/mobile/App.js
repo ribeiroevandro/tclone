@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar, AsyncStorage } from 'react-native';
+import { StatusBar, AsyncStorage, YellowBox } from 'react-native';
+
+YellowBox.ignoreWarnings([
+  'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?',
+]);
 
 import createRootNavigator from '~/routes';
 
