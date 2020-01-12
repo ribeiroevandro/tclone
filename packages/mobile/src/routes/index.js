@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import Home from '~/screens/Home';
 import SignIn from '~/screens/SignIn';
+import New from '~/screens/New';
 
 const createRootNavigator = (userExists = false) =>
   createAppContainer(
@@ -10,6 +11,7 @@ const createRootNavigator = (userExists = false) =>
       {
         Home,
         SignIn,
+        New,
       },
       {
         initialRouteName: userExists ? 'Home' : 'SignIn',
