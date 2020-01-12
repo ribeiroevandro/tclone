@@ -5,14 +5,19 @@ import { COLORS } from '~/constants';
 import { Container, FieldContainer, Field, Label, FieldBorder } from './styles';
 
 export default function Input(props) {
-  const { label } = props;
+  const { label, colors, isMultiline } = props;
   return (
     <Container>
-      {label && <Label>{label}</Label>}
+      {label && <Label colors={colors}>{label}</Label>}
       <FieldContainer>
-        <Field {...props} placeholderTextColor={COLORS.TWITTER} />
+        <Field
+          {...props}
+          multiline={isMultiline}
+          placeholderTextColor={colors}
+          colors={colors}
+        />
       </FieldContainer>
-      <FieldBorder />
+      <FieldBorder colors={colors} />
     </Container>
   );
 }
